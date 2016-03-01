@@ -1,0 +1,207 @@
+.container{
+	width: 100%;
+}
+
+i{
+    color:red;
+}
+
+div[class^="caption"]{
+    
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+}
+
+div[class^="captionID"]{
+    
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.header {
+    background-color:black;
+    /*background-color:#FE588F;*/
+    color:white;
+    text-align:center;
+    font-family: 'Bad Script', cursive;
+  /*  width:50%; */
+    margin-right: auto;
+    margin-left: auto;
+  /*  text-align: right;*/
+    padding-bottom: 0%;
+    float: left;
+    width: 100%;
+    height: 9.9em;
+    line-height: 154pt;
+
+}
+
+img{
+    display: inline-block;
+    width: 100%;
+}
+
+.photo{
+
+    /*borde-box; räkna med paddingen i width*/
+    box-sizing: border-box;
+    float: left;
+    width:33%;
+    padding: 10px;
+    opacity: 0;
+    object-fit: fill;
+    animation-delay:200ms;
+    animation-name: imageFade;
+    animation-duration: 1800ms;
+    animation-fill-mode:forwards;
+
+}
+
+
+.IDphoto{
+
+    /*borde-box; räkna med paddingen i width*/
+    box-sizing: border-box;
+    float: left;
+    width:14%;
+    padding: 10px;
+    opacity: 0;
+    object-fit: fill;
+    animation-delay:200ms;
+    animation-name: imageFade;
+    animation-duration: 1800ms;
+    animation-fill-mode:forwards;
+
+}
+
+#enter{
+
+    line-height: 2px;
+}
+
+#photos{
+    
+    margin-top: 15px;
+    padding-left: 10%;
+    padding-right: 10%;
+    margin-right: auto;
+    margin-left: auto;
+    background: white;
+}
+
+#Forestcasual{
+
+    margin-top: 15px;
+    padding-left: 10%;
+    padding-right: 10%;
+    text-align: center;
+    font-family: 'Bad Script', cursive;
+    font-weight: bold;
+}
+
+#photos .photo:nth-child(3n){
+    
+    animation-delay:1s;
+}
+
+#photos .photo:nth-child(2n){
+    
+    animation-delay:2s;
+}
+
+
+#nav {
+    height: 30%;
+    width:100%;
+    text-align: center;
+    clear: both;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#MainContent{	
+	color:black;
+	/*font-family: 'Bad Script';*/
+    font-family: 'Quicksand', sans-serif;
+	width:100%;
+	margin-right: auto;
+    margin-left: auto;
+}
+
+#search{
+
+    margin-top: 10px;    
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+input{
+
+    color:black;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#searchButton{
+
+    background-color: black;
+    color:white;
+    border: 2px solid;
+    border-radius: 25px;
+    margin-left: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+li a {
+    width: 60px;
+    font-family: 'Bad Script', cursive;
+    background-color: black;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 0%;
+    margin-right: 0%;
+    padding: 0% 1.2% 0% 1.2%;
+    width: 4em;
+}
+
+li {
+    display: inline;
+}
+
+nav a{
+
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    margin-left: 0%;
+    margin-right: 0%;
+    padding: 0% 1.2% 0% 1.2%;
+    width: 4em;
+}
+
+h1 {
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+    color: red;
+}
+
+@keyframes imageFade{
+
+    0% { opacity: 0;}
+    100% { opacity: 1;}
+}
