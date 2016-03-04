@@ -1,0 +1,294 @@
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<meta charset="UTF-8">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+	<title>Title of the document</title>
+
+	<!-- Fonts -->
+	<link href='https://fonts.googleapis.com/css?family=Bad+Script|Quicksand' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+	<!--JavaScript-->
+	<script src="Script.js"></script>
+
+	<!--CSS-files-->
+	<link rel="stylesheet" type="text/css" href="StyleMap\Style.css">
+	</head>
+
+	<body>
+		<div class="container">
+				<div class="header">
+					<h1>Doodlify</h1>
+		    	</div>
+		    	<div id="nav">
+					<ul>
+					  <li><a href="Index.html">Home</a></li>
+					  <li><a href="Tutorial.html">Tutorial</a></li>
+					  <li><a href="Search.html">Search a hashtag</a></li>
+					  <li><a href="Followers.html">Find followers</a></li>
+					</ul>
+				</div>
+			 	<div class="subheader"><h2>Tutorial för att med JavaScript & jQuery använda Instagrams API</h2></div>
+				<div id="MainContentTextTutorial">
+					<h3>Vad är Doodlify?</h3>
+					Doodlifys syfte är att skapa en feed för de senaste bilderna publicerade på Instagram med #-taggen "Päärni". Taggen används för att publicera bilder på teckningar och målningar av mig. Funktionalitet för att söka på andra taggar, och se mina följare, är också inbyggt.
+
+					<h3>Vad behöver du?</h3>
+					Du behöver ett Instagram-konto, och grundläggande kunskaper om HTML, jQuery och JavaScript.
+
+					<h3>Doodlify/Index</h3>
+					Doodlifys index-sida ska fyllas med de 20 senaste bilderna från Instagram som taggats med "Päärni". En div med id <i>photos</i> skapas för att fyllas med sagda bilder, med tillhörande antal likes, upphovsman och använt filter. 
+
+					Index' body anropar API:et varje gång sidan laddas, med funktionen <i>getByHash();</i>.
+
+					Funktionen ska returnera bilder utifrån den förutbestämda hashtaggen "Päärni". Detta  
+
+					<h2>Kom igång</h2>
+					Först behövs en webapplikation att applicera det JavaScript och jQuery Doodlify använder sig av på. Förslagsvis skapas en enkel sida från grunden med plats att fyllas av 20 bilder, men du kan även använda koden för denna hemsida. <b>Observera att koden saknar en Access Key</b>. Denna måste genereras av dig med ditt Instagramkonto.
+
+					Koden för denna hemsida finns i ett <a id="externTip" target="_blank" href="https://github.com/hebbeh/Doodlify">gitrepo</a>. Ladda ner eller klona filerna med Git!
+
+					<h3>1. Registrering & Access Key</h3>
+					För att använda Instagrams API måste du registrera den applikation som ska använda sig av det. Detta gör du på deras <a id="externTip" target="_blank" href="https://www.instagram.com/developer/clients/register/">Developer-sida</a>, där du måste logga in. Du fyller i namn, beskrivning, URL-länkar för vidarebefodring (dessa är inte aktuella i denna tutorial, och kan därför fyllas med godtycklig länkar) och din mailadress.
+					
+					<div class="tutorial"><img src="Images/RegisterID.png"></div>
+
+					<div class="tutorial"><img src="Images/ClientID.png"></div>
+
+					När registreringen gjorts, används ditt client ID från registreringen för att generera en Access Key. Denna Key behövs för att kommunicera med Instagrams API. Du genererar nyckeln via
+					<a id="externTip" target="_blank" href="http://instagram.pixelunion.net/">följande hemsida</a>.
+					
+					<h3>2. GET med jQuery</h3>
+					Nu är det dags att använda din Access Key! I HTML-filen Script.js finns följande kod på rad 1 till 34,
+
+					<div class="codebox">
+						var tag = "Päärni";<br>
+						var user = "";<br>
+						var token ="";<br>
+						var photoCount = 51;<br>
+						var mediaID = "1176745841895893247_205572009";<br><br>
+
+						function getByHash(){<br>
+						$.ajax({<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;type: "GET",<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;dataType: "jsonp",<br>
+						&nbsp;&nbsp;&nbsp;&nbsp;cache: false,<br>
+
+						&nbsp;&nbsp;&nbsp;&nbsp;url: "https://api.instagram.com/v1/tags/"+ tag +"/media/recent?access_token="+ token,<br>
+	    				<br>
+					    &nbsp;&nbsp;&nbsp;&nbsp;success: function(response) {<br>
+					    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var length = response.data != undefined ? response.data.length : 0;<br>
+					    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var limit = photoCount != null && photoCount < length ? photoCount : length;<br>
+					    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(limit > 0) {<br><br>
+
+					    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$('#photos').html('');<br><br>
+
+	        			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(var i = 0; i < limit; i++) {<br><br>     
+
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*Username for poster selected*/<br>
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var user = response.data != undefined ? response.data[i].user.username: 0;<br>
+
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*Filter used selected*/<br>
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var filter = response.data != undefined ? response.data[i].filter: 0;<br>
+
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*Number of likes selected*/<br>
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var amtLikes = response.data != undefined ? response.data[i].likes.count: 0;<br>
+
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*Media ID*/<br>
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var mediaID = response.data != undefined ? response.data[i].id: 0;
+					</div>
+					Här är det framförallt variabeln <i>token</i>, variabeln <i>tag</i> och de första 6 raderna i funktionen <i>getByHash();</i> som är intressanta.
+
+					<div class="codebox">
+						<div class="interesting">var tag = "Päärni";<br></div>
+						var user = "";<br>
+						<div class="interesting">var token ="";<br></div>
+						var photoCount = 51;<br>
+						var mediaID = "1176745841895893247_205572009";<br><br>
+
+						<div class="interesting">function getByHash(){<br>
+							$.ajax({<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;type: "GET",<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;dataType: "jsonp",<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;cache: false,<br>
+
+							&nbsp;&nbsp;&nbsp;&nbsp;url: "https://api.instagram.com/v1/tags/"+ tag +"/media/recent?access_token="+ token,<br>
+		    				<br>
+						    &nbsp;&nbsp;&nbsp;&nbsp;success: function(response) {<br>
+						</div>
+					    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var length = response.data != undefined ? response.data.length : 0;<br>
+					    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var limit = photoCount != null && photoCount < length ? photoCount : length;<br>
+					    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(limit > 0) {<br><br>
+
+					    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$('#photos').html('');<br><br>
+
+	        			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(var i = 0; i < limit; i++) {<br><br>     
+
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*Username for poster selected*/<br>
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var user = response.data != undefined ? response.data[i].user.username: 0;<br>
+
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*Filter used selected*/<br>
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var filter = response.data != undefined ? response.data[i].filter: 0;<br>
+
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*Number of likes selected*/<br>
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var amtLikes = response.data != undefined ? response.data[i].likes.count: 0;<br>
+
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*Media ID*/<br>
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var mediaID = response.data != undefined ? response.data[i].id: 0;
+					</div>
+
+				        <i>token</i> ska tilldelas värdet av din Access Key. 
+
+				        Den markerade koden i funktionen <i>getByHash();</i> är headern som skickas till Instagrams API. Den anger vilken request det är fråga om (i detta fall en GET), och vilket format <i>response</i> ska vara i (här angivet som jsonp). <i>url</i> är den url som GET sänds till. Just Instagrams APIs url för att hämta bilder med en given hashtag finns i <a id="externTip" target="_blank" href="https://www.instagram.com/developer/endpoints/media/">Endpoints</a>. (se bilden nedanför).
+
+				        <div class="tutorial"><img src="Images/getHash.png"></div>
+
+				        Eftersom att det är bilder som taggats med Päärni tilldelas variabeln <i>tag</i> just värdet Päärni. Om GET-requesten är korrekt, ska Instagram ange ett svar i en jsonp-fil i variabeln <i>response</i>. För att kontrollera vad <i>response</i> innehåller kan debuggern i webbläsaren användas.
+
+						<h3>3. Debugga i webbläsaren</h3>
+						Högerklicka och välj <i>Inspect element</i>. 
+
+						<div class="tutorial"><img src="Images/inspect.png"></div>
+
+						Gå till <i>Sources</i>, och klicka sedan på den grå marginalen på rad 16. Precis som i Eclipse och Codeblocks har nu en debugger en breakpoint där. Tryck sedan ctrl + f5.
+
+						<div class="tutorial"><img src="Images/sources.png"></div>
+
+						Håll musen över <i>response</i>. Om GET korrekt returnerat en array med objekt, visas den på samma sätt som i bilden nedanför.
+
+						<div class="tutorial"><img src="Images/breakpoint.png"></div>
+
+						I <i>response</i> finns all information om bilderna, inklusive deras URL, tillgängliga! Inuti varje objekt finns det en stor mängd information, där Doodlifys Index valt att presentera bilden, hur många likes den fått och vilket filter som använts. Klicka på pilarna för att gå längre in i arrayen.
+
+						<h3>4. Plocka ut värden ifrån <i>response</i></h3>
+						Det är mycket enkelt att hämta ut informationen från <i>response</i> om en har tidigare erfarenhet av arrayer. I den markerade koden nedanför visas några exempel på hur information kan plockas ut. <b>Resultatet av denna kod finns på Doodlifys Index.html-sida ("Home") när den öppnas i en webbläsare, och JavaScriptet i Script.js rad 1-70.</b>
+
+
+					<div class="codebox">
+						var tag = "Päärni";<br>
+						var user = "";<br>
+						var token ="";<br>
+						var photoCount = 51;<br>
+						var mediaID = "1176745841895893247_205572009";<br><br>
+
+						function getByHash(){<br>
+							$.ajax({<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;type: "GET",<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;dataType: "jsonp",<br>
+							&nbsp;&nbsp;&nbsp;&nbsp;cache: false,<br>
+
+							&nbsp;&nbsp;&nbsp;&nbsp;url: "https://api.instagram.com/v1/tags/"+ tag +"/media/recent?access_token="+ token,<br>
+		    				<br>
+						    &nbsp;&nbsp;&nbsp;&nbsp;success: function(response) {<br>
+					
+					    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var length = response.data != undefined ? response.data.length : 0;<br>
+					    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var limit = photoCount != null && photoCount < length ? photoCount : length;<br>
+					    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(limit > 0) {<br><br>
+
+					    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$('#photos').html('');<br><br>
+
+	        			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(var i = 0; i < limit; i++) {<br><br>     
+						
+						<div class="interesting">
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*Username for poster selected*/<br>
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var user = response.data != undefined ? response.data[i].user.username: 0;<br>
+
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*Filter used selected*/<br>
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var filter = response.data != undefined ? response.data[i].filter: 0;<br>
+
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*Number of likes selected*/<br>
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var amtLikes = response.data != undefined ? response.data[i].likes.count: 0;<br>
+
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*Media ID*/<br>
+				        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var mediaID = response.data != undefined ? response.data[i].id: 0;
+					    </div>
+					</div>
+
+					<h2>5. Gör din egen hantering av <i>response</i> med andra GET</h2>
+					Nu är det din tur! Instagrams API gör det möjligt att med koordinater hitta <i>locations</i>. Under <a id="externTip" target="_blank" href="https://www.instagram.com/developer/endpoints/locations/">Endpoints > Locations</a> finns det bland annat en url som returnerar en array med <i>locations</i> från angivna koordinater (se nedan).
+
+					<div class="tutorial"><img src="Images/geographic.png"></div>
+					
+					<h3>5.1 Hämta en locations-array</h3>
+					Leta upp koordinaterna för en plats du vill hitta <i>locations</i> i, och ange dessa med drygt 3 värdesiffror (pröva dig fram och tillbaka, ett stort anta värdesiffror ger ett snävt område, få ett större). <br><br>
+
+					Nedan finns ett exempelkod för att motta information om <i>locations</i>, som du kan lägga in i <i>Script.js</i>. <b>Notera att du måste ha ett värde på <i>token</i> återigen (förslagsvis gör du <i>token</i> till en global variabel)</b>. I kodexemplet plockas det location-id som finns på plats 0 ut ifrån arrayen som returneras. Detta id kommer att användas i funktionen <i>getImage</i> för att få fram bilder, så spara det! Ett enkelt sätt att spara undan det är att använda en global variabel, som i exemplet. Texten som markerats är det som skiljer sig från föregående kodexempel.
+
+					<div class="codebox">
+					var id="";<br>
+					function getLocation(){<br>
+	  				$.ajax({<br>
+	    			&nbsp;&nbsp;&nbsp;&nbsp;type: "GET",<br>
+	    			&nbsp;&nbsp;&nbsp;&nbsp;dataType: "jsonp",<br>
+	    			&nbsp;&nbsp;&nbsp;&nbsp;cache: false,<br>
+					<div class="interesting">
+		    			&nbsp;&nbsp;&nbsp;&nbsp;url: "https://api.instagram.com/v1/locations/search?lat=LATITUD&lng=LONGITUD&access_token=" + token,<br><br>
+		    
+		    			&nbsp;&nbsp;&nbsp;&nbsp;success: function(responseLoc) {<br>
+
+		          		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id = responseLoc.data != undefined ? responseLoc.data[0].id: 0;<br>
+		          		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;getImage();<br>
+	          		</div>
+	        		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+	  				&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+					}<br>	
+
+					</div>
+					Kontrollera först att din GET-request returnerar en array med locations, genom att debugga på samma sätt som du gjorde i steg 3. Håller du musen över <i>responseLoc</i> ska den visa en locations-array. Läs felmeddelanden i debuggern om det inte fungerar som det ska! Ett tips är att kontrollera att den url du angivet verkligen stämmer.
+					<br>
+					<br>
+					När din <i>responseLoc</i> innehåller en array har du ett id för en <i>location</i> som finns i närheten av koordinaterna du angav. Nästa steg är att visa en eller flera bilder från denna location! I källkoden för <i>Script.js</i> finns funktionen <i>getByHash</i>, där bilder plockas ut och läggs i divar som skapas dynamiskt, beroende på mängd bilder som läses in. Denna kod går att användas och modifiera för att återanvända till detta ändamål. Skapa en ny html-sida för att implementera din lösning, förslagsvis genom att kopiera och använda den kod som finns i <i>Index.html</i>.
+					<br>
+					<br>
+					<b>I den kod som visas ovan plockas endast en <i>location</i> ut. Givetvis går det att lösa detta med en loop, och hämta fler locations!</b>.
+		
+					<h3>5.2 Hämta en media från angiven <i>location</i></h3>
+					Instagram har även stöd för att hämta media från locations under <a id="externTip" target="_blank" href="https://www.instagram.com/developer/endpoints/locations/">Endpoints > Locations</a>. Detta steg följer exakt samma mönster som GET-responsen för <i>location</i>i steg 5.1, med det enda undantaget att den returnerade arrayen ser annorlunda ut.
+
+					<div class="tutorial"><img src="Images/locations.png"></div> 
+					
+					Syntaxen för att hämta en bild från den returnerade media-arrayen finns nedan. <b>Notera att bilden måste läggas in i en div som finns (i exemplet skapas en div med namnet <i>photoLocation</i>, som sedan läggs till i den existerande diven <i>photos</i>. Kontrollera att du har en div som kan ta emot bilden.</b> 
+
+					<div class="codebox">
+						var id="";<br>
+						function getLocation(){<br>
+		  				$.ajax({<br>
+		    			&nbsp;&nbsp;&nbsp;&nbsp;type: "GET",<br>
+		    			&nbsp;&nbsp;&nbsp;&nbsp;dataType: "jsonp",<br>
+		    			&nbsp;&nbsp;&nbsp;&nbsp;cache: false,<br>
+						<div class="interesting">
+			    			&nbsp;&nbsp;&nbsp;&nbsp;url: url: "https://api.instagram.com/v1/locations/" + id + "/media/recent?access_token=" + token,<br><br>
+			    
+			    			&nbsp;&nbsp;&nbsp;&nbsp;success: function(responseImg) {<br><br>
+
+			          		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var container = $('&lt;div&gt;', {class: "photoLocation"});<br>
+			          		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var img = $('&lt;img&gt;', {src: responseImg.data[0].images.standard_resolution.url});<br>
+			          		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;img.appendTo(container);<br>
+			          		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;container.appendTo($("#photos"));<br>
+
+		          		</div>
+		        		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+		  				&nbsp;&nbsp;&nbsp;&nbsp;});<br>
+						}<br>	
+					</div>
+
+					Förslagsvis implementerar du ett enkelt inputfält (det finns redan ett i <i>Search.html</i>...) där longituder och latituder kan anges, så att du enkelt kan pröva olika locations och vilka bilder de returnerar.
+
+					<h2>Klar!</h2>
+					<div class="tutorial"><img src="Images/HAPPY.gif"></div>
+
+					Nu har du testat på att använda GET-requests till Instagrams API! Det finns mängder med fler GET-requests än ovan nämnda på <a id="externTip" target="_blank" href="https://www.instagram.com/developer/endpoints//">Endpoints</a>. Dessvärre innebär POST-requests att en server krävs, eftersom att det inte är tillåtet med POST-request client-side. We'll cross that bridge when we get to it, som man brukar säga.
+
+					På flikarna "Search a hashtag" och "Find followers" finns det lite annan funktionalitet än ovan nämnd implementerad. Klicka runt och granska källkoden om du vill veta mer!
+
+					Ha det fint!
+
+                   				
+		</div>
+	</body>
+
+	</html>
