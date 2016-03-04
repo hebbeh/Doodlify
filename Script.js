@@ -1,6 +1,6 @@
 var tag = "Päärni";
 var user = "";
-var token ="205572009.1677ed0.b85acc60b6b24cf3a0a5c6d3ccbb1cc0";
+var token ="";
 var photoCount = 51;
 var mediaID = "1176745841895893247_205572009";
 
