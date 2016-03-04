@@ -1,26 +1,91 @@
+.group        { 
+  position:relative; 
+  margin-bottom:45px; 
+}
+
+input         {
+
+      font-size:18px;
+      padding:10px 10px 10px 5px;
+      display:block;
+      width:300px;
+      border:none;
+      border-bottom:1px solid #757575;
+      font-family: 'Open Sans', sans-serif;
+}
+
+input:focus     { outline:none; }
+
+label          {
+  color:#999; 
+  font-size:18px;
+  font-weight:normal;
+  position:absolute;
+  pointer-events:none;
+  left:5px;
+  top:10px;
+  transition:0.2s ease all; 
+}
+
+/* active state */
+input:focus ~ label, input:valid ~ label     {
+  top:-20px;
+  font-size:14px;
+  color:#5264AE;
+}
+
+
 .container{
 	width: 100%;
 }
 
+#externTip{
+ 
+    text-decoration: none;
+    color:#6DC0D5;
+}
+
+.tutorial{
+
+    text-align: center;
+}
+
+.tutorial img{
+    
+    margin-top: 40px;
+    margin-bottom: 40px;
+    height: auto;
+    width: 620px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+body {
+ margin-top: 0px;
+ margin-right: 0px;
+ margin-bottom: 25px;
+ margin-left: 0px
+}
+
 i{
-    color:red;
+    color:#E75A7C;
 }
 
 div[class^="caption"]{
     
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-weight: bold;
 }
 
 div[class^="captionID"]{
     
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-weight: bold;
     font-size: 12px;
 }
 
 .header {
-    background-color:black;
+    background-color:#6DC0D5;
     /*background-color:#FE588F;*/
     color:white;
     text-align:center;
@@ -123,15 +188,36 @@ img{
 #MainContent{	
 	color:black;
 	/*font-family: 'Bad Script';*/
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Open Sans', sans-serif;
 	width:100%;
 	margin-right: auto;
     margin-left: auto;
 }
 
+#MainContentText{   
+    color:black;
+    /*font-family: 'Bad Script';*/
+    font-family: 'Open Sans', sans-serif;
+    width:70%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#MainContentTextTutorial{
+
+    padding: 5%;
+    color: black;
+    /* font-family: 'Bad Script'; */
+    font-family: 'Open Sans', sans-serif;
+    width: 59%;
+    margin-right: auto;
+    margin-left: auto;
+    background-color: #EDF4ED;
+}
+
 #search{
 
-    margin-top: 10px;    
+    margin-top: 35px;    
     text-align: center;
     margin-right: auto;
     margin-left: auto;
@@ -151,28 +237,30 @@ input{
 }
 
 #searchButton{
-
-    background-color: black;
+    
+    font-family: 'Open Sans', sans-serif;
+    background-color: #E75A7C;
     color:white;
     border: 2px solid;
-    border-radius: 25px;
-    margin-left: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 2px;
-    padding-bottom: 2px;
+    margin-top: 20px;
+    margin-left: 2px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 8px;
+    padding-bottom: 8px;
 }
 
 li a {
     width: 60px;
-    font-family: 'Bad Script', cursive;
-    background-color: black;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    background-color: #6DC0D5;
     color: white;
     text-decoration: none;
     font-weight: bold;
     margin-left: 0%;
     margin-right: 0%;
-    padding: 0% 1.2% 0% 1.2%;
+    padding: 0% 1.2% 0.4% 1.2%;
     width: 4em;
 }
 
@@ -197,11 +285,51 @@ h1 {
 
 h2 {
     text-align: center;
-    color: red;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    margin-top: 40px;
+}
+
+.codebox{
+
+    background-color:#5A716A;
+    color: #E9F1F7;
+    width: 700px;
+    height:auto;
+    font-size: 12px;
+    font-family: courier;
+    padding: 30px 50px 30px 50px;
+    margin-top: 30px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 30px;
+}
+
+.photoLocation{
+
+    width: 700px;
+    height:auto;
+    font-size: 12px;
+    font-family: courier;
+    padding: 30px 50px 30px 50px;
+    margin-top: 30px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 30px;
+}
+
+.subheader{
+    
+    padding-top: 2%;
 }
 
 @keyframes imageFade{
 
     0% { opacity: 0;}
     100% { opacity: 1;}
+}
+
+.interesting{
+
+    color: #F5A65B;
 }
