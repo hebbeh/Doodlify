@@ -1,6 +1,6 @@
 var tag = "Päärni";
 var user = "";
-var token ="";
+var token ="205572009.1677ed0.b85acc60b6b24cf3a0a5c6d3ccbb1cc0";
 var photoCount = 51;
 var mediaID = "1176745841895893247_205572009";
 
@@ -119,5 +119,43 @@ function getFollowers(){
         }
       }
     }
+  });
+}
+
+var id="";
+function getLocation(){
+  $.ajax({
+    type: "GET",
+    dataType: "jsonp",
+    cache: false,
+
+    url: "https://api.instagram.com/v1/locations/search?lat=35.68&lng=139.75&access_token=" + token,
+
+    
+    success: function(responseLoc) {
+
+          id = responseLoc.data != undefined ? responseLoc.data[0].id: 0;
+          getImage();
+        }
+  });
+}
+
+function getImage(){
+  $.ajax({
+    type: "GET",
+    dataType: "jsonp",
+    cache: false,
+
+    url: "https://api.instagram.com/v1/locations/" + id + "/media/recent?access_token=" + token,
+    
+    success: function(responseImg) {
+
+          var container = $('<div>', {class: "photoLocation"});
+          var img = $('<img>', {src: responseImg.data[0].images.standard_resolution.url});
+
+          img.appendTo(container);
+          container.appendTo($("#photos"));
+
+        }
   });
 }
