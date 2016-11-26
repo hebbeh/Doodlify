@@ -1,8 +1,8 @@
-var tag = "Päärni";
+var tag = "";
 var user = "";
 var token ="";
 var photoCount = 51;
-var mediaID = "1176745841895893247_205572009";
+var mediaID = "";
 
 function getByHash(){
   $.ajax({
